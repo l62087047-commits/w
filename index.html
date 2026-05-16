@@ -251,7 +251,7 @@ footer a:hover { cursor: pointer !important; }
 
 
 
-<div id="cur"><img src="/images/cursor.svg" alt="" /></div>
+<div id="cur"><img src="images/cursor.svg" alt="" /></div>
 
 <!-- ★ [변경] #row-img: img 태그 추가 + ri-ph 유지 -->
 <div id="row-img">
@@ -286,7 +286,7 @@ footer a:hover { cursor: pointer !important; }
 
    <!-- ★ [변경] vellum-body 안 "digital experiences." 에만 span.vellum-highlight 추가 -->
   <div class="intro-vellum rev">
-    <img src="/images/bg.png" alt="Selected work preview">
+    <img src="images/bg.png" alt="Selected work preview">
   </div>
   
   <div class="intro-giant rev">
@@ -672,15 +672,15 @@ if (footerEl) {
     link.addEventListener('mouseenter', () => { cur.style.opacity = '0'; });
     link.addEventListener('mouseleave', () => { cur.style.opacity = '1'; });
   });
-  footerEl.addEventListener('mouseenter', () => { curImg.src = '/images/cursor.svg'; });
-  footerEl.addEventListener('mouseleave', () => { curImg.src = '/images/cursor.svg'; });
+  footerEl.addEventListener('mouseenter', () => { curImg.src = 'images/cursor.svg'; });
+  footerEl.addEventListener('mouseleave', () => { curImg.src = 'images/cursor.svg'; });
 }
 
 /* ── about 진입 시 cursor2 ── */
 const aboutEl = document.getElementById('about');
 if (aboutEl) {
-  aboutEl.addEventListener('mouseenter', () => { curImg.src = '/images/cursor2.svg'; });
-  aboutEl.addEventListener('mouseleave', () => { curImg.src = '/images/cursor.svg'; });
+  aboutEl.addEventListener('mouseenter', () => { curImg.src = 'images/cursor2.svg'; });
+  aboutEl.addEventListener('mouseleave', () => { curImg.src = 'images/cursor.svg'; });
 }
 
 /* ── LOADER ── */
