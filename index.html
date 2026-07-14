@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archive — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #f5f7fa;
+  --off-white: #eef2f5;
+  --warm-gray: #dce2e8;
+  --mid-gray: #7b8088;
+  --dark-gray: #2e3338;
+  --black: #111111;
+  --accent: #a8b0ba;
+  --card: #ffffff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--black);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+}
+.cursor-ring {
+  position: fixed;
+  width: 32px; height: 32px;
+  border: 1px solid var(--dark-gray);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+}
+body:hover .cursor { opacity: 1; }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  mix-blend-mode: normal;
+}
+.nav-logo {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--black);
+}
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--dark-gray);
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--black); }
+.nav-index {
+  font-size: 11px;
+  color: var(--mid-gray);
+  letter-spacing: 0.1em;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 60px 40px;
+  position: relative;
+  overflow: hidden;
+  background: var(--white);
+}
+.hero-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(80px, 18vw, 260px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--warm-gray);
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.6;
+}
+.hero-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+}
+.hero-title-block h1 {
+  font-size: clamp(40px, 7vw, 100px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  color: var(--black);
+}
+.hero-title-block h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--mid-gray);
+}
+.hero-meta {
+  text-align: right;
+  max-width: 220px;
+}
+.hero-meta p {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+  line-height: 2;
+}
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.hero-scroll-hint span {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+}
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: var(--mid-gray);
+  animation: scrollDown 1.8s ease-in-out infinite;
+}
+@keyframes scrollDown {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* IMAGE PLACEHOLDER SYSTEM */
+.img-ph {
+  background: var(--warm-gray);
+  position: relative;
+  overflow: hidden;
+}
+.img-ph::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--warm-gray) 0%, var(--accent) 50%, var(--off-white) 100%);
+  opacity: 0.5;
+}
+.img-ph-label {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+}
+.img-ph-cross {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  opacity: 0.25;
+}
+.img-ph-cross::before,
+.img-ph-cross::after {
+  content: '';
+  position: absolute;
+  background: var(--dark-gray);
+}
+.img-ph-cross::before {
+  width: 1px; height: 100%;
+  left: 50%; top: 0;
+}
+.img-ph-cross::after {
+  height: 1px; width: 100%;
+  top: 50%; left: 0;
+}
+
+/* SECTION DIVIDER */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 40px;
+  margin: 80px 0 40px;
+}
+.section-divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--warm-gray);
+}
+.section-divider-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+  white-space: nowrap;
+}
+
+/* PROJECT LABEL */
+.project-label {
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.project-label-num {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+}
+.project-label-cat {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+}
+
+/* ============================
+   FULLSCREEN SECTIONS
+   ============================ */
+.fullscreen-section {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+.fs-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fs-overlay-text {
+  position: absolute;
+  pointer-events: none;
+}
+.fs-title {
+  font-size: clamp(48px, 10vw, 140px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.88;
+  color: var(--white);
+  mix-blend-mode: difference;
+}
+.fs-title.dark {
+  color: var(--black);
+  mix-blend-mode: normal;
+}
+.fs-meta-text {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  mix-blend-mode: difference;
+}
+.fs-meta-text.dark {
+  color: var(--mid-gray);
+  mix-blend-mode: normal;
+}
+
+/* fullscreen layouts */
+.fs-layout-1 .fs-overlay-text.title { bottom: 80px; left: 40px; }
+.fs-layout-2 .fs-overlay-text.title { top: 50%; left: 40px; transform: translateY(-50%); }
+.fs-layout-2 .fs-overlay-text.meta { top: 40px; right: 40px; text-align: right; }
+.fs-layout-3 .fs-overlay-text.title { bottom: 80px; right: 40px; text-align: right; }
+.fs-layout-4 .fs-overlay-text.title { top: 60px; left: 40px; }
+.fs-layout-5 { display: flex; flex-direction: column; justify-content: flex-end; }
+.fs-layout-5 .fs-overlay-text.title { bottom: 80px; left: 0; right: 0; text-align: center; }
+
+/* Side text element */
+.fs-side-text {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+  white-space: nowrap;
+}
+
+/* split fullscreen */
+.fs-split {
+  display: flex;
+  height: 100vh;
+}
+.fs-split .fs-half {
+  width: 50%;
+  position: relative;
+}
+.fs-split .fs-half.img-ph {
+  height: 100%;
+}
+.fs-split .split-text-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 60px 50px;
+  background: var(--card);
+}
+.fs-split .split-text-side h2 {
+  font-size: clamp(40px, 6vw, 90px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  color: var(--black);
+}
+.fs-split .split-text-side h2 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--mid-gray);
+}
+.fs-split .split-text-side p {
+  margin-top: 24px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--mid-gray);
+  line-height: 1.8;
+  max-width: 260px;
+}
+
+/* tall+small column layout */
+.fs-column-layout {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3px;
+  background: var(--warm-gray);
+}
+.fs-column-layout .col-main {
+  position: relative;
+}
+.fs-column-layout .col-side {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.fs-column-layout .col-side .img-ph {
+  flex: 1;
+}
+
+/* ============================
+   OVERVIEW SECTION
+   ============================ */
+.overview-section {
+  padding: 100px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: 80px;
+  border-top: 1px solid var(--warm-gray);
+}
+.overview-meta {
+  padding-top: 4px;
+}
+.overview-meta-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+.overview-meta-item .meta-key {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+  margin-bottom: 4px;
+}
+.overview-meta-item .meta-val {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--black);
+}
+.overview-content .ov-concept {
+  font-size: clamp(22px, 3vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--black);
+  margin-bottom: 32px;
+}
+.overview-content .ov-body {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.9;
+  color: var(--dark-gray);
+  max-width: 520px;
+  margin-bottom: 28px;
+}
+.overview-content .ov-direction {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--mid-gray);
+  max-width: 480px;
+  margin-bottom: 32px;
+  letter-spacing: 0.02em;
+}
+.ov-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ov-keyword {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+  border: 1px solid var(--warm-gray);
+  padding: 6px 14px;
+}
+
+/* ============================
+   FEED / ARCHIVE LAYOUTS
+   ============================ */
+.feed-section {
+  padding: 20px 40px 120px;
+}
+.feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--warm-gray);
+  padding-bottom: 16px;
+}
+.feed-header-title {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+}
+.feed-header-count {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+/* Feed card */
+.feed-card {
+  position: relative;
+  background: var(--card);
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.feed-card:hover { transform: translateY(-4px); }
+.feed-card .card-img {
+  width: 100%;
+  display: block;
+}
+.feed-card .card-footer {
+  padding: 14px 16px 16px;
+}
+.feed-card .card-caption {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--dark-gray);
+  margin-bottom: 5px;
+}
+.feed-card .card-micro {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+}
+.feed-card .card-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--dark-gray);
+  padding: 4px 9px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feed-card:hover .card-tag { opacity: 1; }
+
+/* Feed layouts per project */
+
+/* P1: 4 blocks — large left, stacked right */
+.feed-p1 {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+}
+.feed-p1 .f1 { grid-row: 1 / 3; }
+.feed-p1 .f1 .card-img { height: 540px; }
+.feed-p1 .f2 .card-img { height: 240px; }
+.feed-p1 .f3 .card-img { height: 240px; }
+.feed-p1 .f4 {
+  grid-column: 1 / 3;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  padding: 0;
+}
+.feed-p1 .f4 .feed-quote {
+  font-size: clamp(24px, 4vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  line-height: 1.05;
+  max-width: 600px;
+}
+
+/* P2: 5 blocks — masonry feel */
+.feed-p2 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+}
+.feed-p2 .f1 { grid-column: 1/6; }
+.feed-p2 .f1 .card-img { height: 400px; }
+.feed-p2 .f2 { grid-column: 6/10; margin-top: 60px; }
+.feed-p2 .f2 .card-img { height: 300px; }
+.feed-p2 .f3 { grid-column: 10/13; margin-top: 20px; }
+.feed-p2 .f3 .card-img { height: 220px; }
+.feed-p2 .f4 { grid-column: 2/8; margin-top: -20px; }
+.feed-p2 .f4 .card-img { height: 320px; }
+.feed-p2 .f5 { grid-column: 8/13; }
+.feed-p2 .f5 .card-img { height: 260px; }
+
+/* P3: 5 blocks — editorial collage */
+.feed-p3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+.feed-p3 .f1 { grid-column: 1/3; }
+.feed-p3 .f1 .card-img { height: 460px; }
+.feed-p3 .f2 .card-img { height: 460px; }
+.feed-p3 .f3 { grid-column: 1/2; }
+.feed-p3 .f3 .card-img { height: 260px; }
+.feed-p3 .f4 { grid-column: 2/3; margin-top: -120px; }
+.feed-p3 .f4 .card-img { height: 260px; }
+.feed-p3 .f5 { grid-column: 3/4; grid-row: 2/3; margin-top: -360px; }
+.feed-p3 .f5 .card-img { height: 400px; }
+
+/* P4: 4 blocks — centered editorial */
+.feed-p4 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+.feed-p4 .f1 { grid-column: 1/5; }
+.feed-p4 .f1 .card-img { height: 520px; }
+.feed-p4 .f2 { grid-column: 5/10; margin-top: 80px; }
+.feed-p4 .f2 .card-img { height: 360px; }
+.feed-p4 .f3 { grid-column: 10/13; margin-top: 40px; }
+.feed-p4 .f3 .card-img { height: 280px; }
+.feed-p4 .f4 { grid-column: 3/11; }
+.feed-p4 .f4 .card-img { height: 300px; }
+
+/* P5: 2 blocks — dramatic pair */
+.feed-p5 {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.feed-p5 .f1 .card-img { height: 600px; }
+.feed-p5 .f2 { margin-top: 100px; }
+.feed-p5 .f2 .card-img { height: 380px; }
+
+/* ============================
+   TRANSITIONS & ANIMATIONS
+   ============================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.stagger.visible > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s; }
+.stagger.visible > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.1s; }
+.stagger.visible > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.2s; }
+.stagger.visible > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.3s; }
+.stagger.visible > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.4s; }
+.stagger.visible > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.5s; }
+
+/* ============================
+   PROJECT SPACING
+   ============================ */
+.project-gap {
+  height: 120px;
+}
+.project-end-rule {
+  margin: 0 40px;
+  height: 1px;
+  background: var(--warm-gray);
+}
+
+/* ============================
+   FOOTER
+   ============================ */
+footer {
+  padding: 80px 40px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--warm-gray);
+  margin-top: 80px;
+}
+.footer-brand {
+  font-size: clamp(36px, 6vw, 80px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--black);
+}
+.footer-brand em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--mid-gray);
+}
+.footer-right {
+  text-align: right;
+}
+.footer-right p {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+  line-height: 2;
+}
+.footer-right .footer-year {
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-top: 12px;
+}
+
+/* Parallax images */
+.parallax-wrap {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  will-change: transform;
+}
+.parallax-wrap .img-ph {
+  width: 100%;
+  height: 100%;
+}
+
+/* Full overlay gradient */
+.fs-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(14,20,32,0.55) 0%, transparent 50%);
+  pointer-events: none;
+}
+.fs-gradient-overlay.top {
+  background: linear-gradient(to bottom, rgba(14,20,32,0.3) 0%, transparent 50%);
+}
+
+/* Horizontal tape / label */
+.editorial-tape {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--black);
+  padding: 5px 12px;
+}
+
+/* Number marker */
+.project-number {
+  font-size: clamp(80px, 14vw, 180px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--warm-gray);
+  position: absolute;
+  top: -30px;
+  right: 40px;
+  user-select: none;
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* Section wrapper */
+.project-section {
+  position: relative;
+  margin-bottom: 0;
+}
+
+/* Intro panel between projects */
+.project-intro {
+  padding: 80px 40px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  position: relative;
+}
+.project-intro h2 {
+  font-size: clamp(32px, 5.5vw, 72px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--black);
+  line-height: 0.95;
+}
+.project-intro h2 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--mid-gray);
+}
+
+/* Floating editorial text */
+.float-label {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--mid-gray);
+  writing-mode: vertical-rl;
+  position: absolute;
+}
+
+/* Tighten feed section spacing */
+.feed-section { padding-top: 60px; }
+
+/* Varied BG for section breaks */
+.bg-offwhite { background: var(--off-white); }
+.bg-warm { background: var(--warm-gray); }
+.bg-black { background: var(--black); }
+.bg-black .fs-title { color: var(--white); -webkit-text-stroke: none; }
+
+/* Wide caption below fullscreen */
+.fs-caption-bar {
+  padding: 14px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--warm-gray);
+}
+.fs-caption-bar span {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--mid-gray);
+}
+.fs-caption-bar span.right {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Studio Archive</div>
+  <ul class="nav-links">
+    <li><a href="#p1">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-index">05 Projects</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">ARCHIVE</div>
+  <div class="hero-content">
+    <div class="hero-title-block reveal">
+      <h1>Brand<br><em>&amp; focused</em><br>Design</h1>
+    </div>
+    <div class="hero-meta reveal">
+      <p>Selected Works</p>
+      <p>2026</p>
+      <p>Editorial</p>
+      <p>Visual Systems</p>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROJECT 1 — SILHOUETTE STUDIES
+     ============================================================ -->
+<div id="p1" class="project-section">
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <div class="section-divider-label">Project 01 / 05</div>
+    <div class="section-divider-line"></div>
+  </div>
+  <div class="project-intro reveal">
+    <div>
+      <h2>Silhouette<br><em>Studies</em></h2>
+    </div>
+    <div class="project-number">01</div>
+  </div>
+
+  <!-- FS 1 -->
+  <div class="fullscreen-section fs-layout-1">
+    <div class="parallax-wrap" data-speed="0.15">
+      <div class="img-ph" style="width:100%;height:100%;background:linear-gradient(160deg,#cdd4db,#b0bac4);">
+        <div class="img-ph-cross"></div>
+        <div class="img-ph-label">Campaign / Silhouette 001</div>
+      </div>
+    </div>
+    <div class="fs-gradient-overlay"></div>
+    <div class="fs-overlay-text title fs-layout-1">
+      <div class="editorial-tape">AW 2024</div>
+      <div class="fs-title" style="color:#fff;">SILHOUETTE<br>STUDIES</div>
+    </div>
+    <div class="fs-side-text" style="color:rgba(255,255,255,0.5);">Visual Archive — 001</div>
+  </div>
+  <div class="fs-caption-bar reveal">
+    <span>Form as Language — The Body as Medium</span>
+    <span class="right">Campaign / Photography</span>
+  </div>
+
+  <!-- FS 2 — Split -->
+  <div class="fs-split reveal">
+    <div class="fs-half img-ph" style="background:linear-gradient(200deg,#c2c9d2,#9aa3ae);">
+      <div class="img-ph-cross"></div>
+      <div class="img-ph-label">Campaign 002</div>
+    </div>
+    <div class="fs-half split-text-side">
+      <h2>The body<br><em>in space</em></h2>
+      <p>An exploration of form, negative space, and the relationship between garment and movement.</p>
+    </div>
+  </div>
+
+  <!-- FS 3 -->
+  <div class="fullscreen-section fs-layout-3">
+    <div class="parallax-wrap" data-speed="0.1">
+      <div class="img-ph" style="width:100%;height:100%;background:linear-gradient(120deg,#141820,#2c3440);">
+        <div class="img-ph-label" style="color:rgba(255,255,255,0.4);">Campaign / Silhouette 003</div>
+      </div>
+    </div>
+    <div class="fs-gradient-overlay top"></div>
+    <div class="fs-overlay-text title fs-layout-3">
+      <div class="fs-title">FORM &amp;<br>SHADOW</div>
+    </div>
+  </div>
+
+  <!-- FS 4 — Column layout -->
+  <div class="fs-column-layout reveal">
+    <div class="col-main img-ph" style="background:linear-gradient(170deg,#dde3ea,#c0c8d2);">
+      <div class="img-ph-cross"></div>
+    </div>
+    <div class="col-side">
+      <div class="img-ph" style="background:linear-gradient(180deg,#b8c0c8,#98a0aa);">
+        <div class="img-ph-cross"></div>
+      </div>
+      <div class="img-ph" style="background:linear-gradient(180deg,#d4dae0,#b4bcc4);">
+        <div class="img-ph-cross"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fs-caption-bar reveal">
+    <span>Archive Reference — Dusk, Studio Light</span>
+    <span class="right">Editorial / Still</span>
+  </div>
+
+  <!-- FS 5 -->
+  <div class="fullscreen-section" style="background:var(--off-white);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:30px;">
+    <div style="font-size:clamp(60px,12vw,160px);font-weight:800;letter-spacing:-0.05em;color:transparent;-webkit-text-stroke:1px var(--warm-gray);text-align:center;line-height:0.85;">BODY<br>LANGUAGE</div>
+    <div class="img-ph" style="width:40vw;height:50vh;max-width:600px;">
+      <div class="img-ph-cross"></div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="overview-section reveal">
+    <div class="overview-meta stagger">
+      <div class="overview-meta-item">
+        <span class="meta-key">Role</span>
+        <span class="meta-val">Art Direction, Styling</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Tools</span>
+        <span class="meta-val">Lightroom, Capture One</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Year</span>
+        <span class="meta-val">2024</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Type</span>
+        <span class="meta-val">Independent Project</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Category</span>
+        <span class="meta-val">Fashion Campaign</span>
+      </div>
+    </div>
+    <div class="overview-content reveal">
+      <div class="ov-concept">The garment disappears.<br>What remains is the silhouette.</div>
+      <p class="ov-body">A visual study into how clothing creates, distorts, and redefines the human form. Shot against negative space, each look was selected for its architectural quality—tailoring that speaks before the wearer does.</p>
+      <p class="ov-direction">Directed as a black-and-white archival collection, the project drew from mid-century fashion photography traditions while maintaining a contemporary editorial restraint. No retouching. No artifice.</p>
+      <div class="ov-keywords">
+        <span class="ov-keyword">Minimalism</span>
+        <span class="ov-keyword">Archival</span>
+        <span class="ov-keyword">Form</span>
+        <span class="ov-keyword">Negative Space</span>
+        <span class="ov-keyword">Monochrome</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEED P1 -->
+  <div class="feed-section">
+    <div class="feed-header">
+      <span class="feed-header-title">Archive / Feed</span>
+      <span class="feed-header-count">4 Items</span>
+    </div>
+    <div class="feed-p1 stagger reveal">
+      <div class="feed-card f1">
+        <div class="img-ph card-img" style="background:linear-gradient(160deg,#c8d0d8,#a0aab4);height:540px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-tag">Featured</div>
+        <div class="card-footer">
+          <div class="card-caption">Structural coat, series I</div>
+          <div class="card-micro">Campaign — Winter 2024</div>
+        </div>
+      </div>
+      <div class="feed-card f2">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#dde4ea,#bcc4cc);height:240px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Draped jersey, detail</div>
+          <div class="card-micro">Editorial</div>
+        </div>
+      </div>
+      <div class="feed-card f3">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#1e2228,#3a4048);height:240px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Studio, low-key light</div>
+          <div class="card-micro">BTS / Archive</div>
+        </div>
+      </div>
+      <div class="feed-card f4" style="padding:40px 20px;background:transparent;">
+        <div class="feed-quote">
+          "Clothing is architecture<br>of the body."
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PROJECT 2 — URBAN TEXTURE
+     ============================================================ -->
+<div class="project-end-rule"></div>
+<div id="p2" class="project-section">
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <div class="section-divider-label">Project 02 / 05</div>
+    <div class="section-divider-line"></div>
+  </div>
+  <div class="project-intro reveal">
+    <div>
+      <h2>Urban<br><em>Texture</em></h2>
+    </div>
+    <div class="project-number">02</div>
+  </div>
+
+  <!-- FS 1 -->
+  <div class="fullscreen-section fs-layout-2">
+    <div class="parallax-wrap" data-speed="0.12">
+      <div class="img-ph" style="width:100%;height:100%;background:linear-gradient(140deg,#b0bac4,#788088);">
+        <div class="img-ph-label">Urban / Texture 001</div>
+      </div>
+    </div>
+    <div class="fs-gradient-overlay"></div>
+    <div class="fs-overlay-text meta fs-layout-2" style="top:40px;right:40px;text-align:right;">
+      <span class="editorial-tape">SS 2025</span>
+    </div>
+    <div class="fs-overlay-text title fs-layout-2" style="top:50%;left:40px;transform:translateY(-50%);">
+      <div class="fs-title" style="color:#fff;">URBAN<br>TEXTURE</div>
+    </div>
+  </div>
+
+  <!-- FS 2 -->
+  <div class="fullscreen-section" style="overflow:hidden;position:relative;">
+    <div class="parallax-wrap" data-speed="0.08">
+      <div class="img-ph" style="width:100%;height:100%;background:linear-gradient(110deg,#edf1f5,#d0d8e0);">
+        <div class="img-ph-cross"></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:60px;right:40px;">
+      <div style="font-size:clamp(28px,5vw,72px);font-weight:700;letter-spacing:-0.03em;color:var(--dark-gray);text-align:right;line-height:0.9;">
+        Material<br><em style="font-weight:300;color:var(--mid-gray);">as Memory</em>
+      </div>
+    </div>
+  </div>
+  <div class="fs-caption-bar reveal">
+    <span>Raw concrete, worn denim, oxidized metal</span>
+    <span class="right">Texture / Study</span>
+  </div>
+
+  <!-- FS 3 — Full black -->
+  <div class="fullscreen-section bg-black">
+    <div class="img-ph" style="width:100%;height:100%;background:linear-gradient(180deg,#111520,#202838);opacity:0.7;position:absolute;inset:0;"></div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+      <div style="font-size:clamp(50px,11vw,150px);font-weight:800;letter-spacing:-0.05em;color:rgba(255,255,255,0.08);line-height:0.85;">THE CITY<br>SPEAKS</div>
+      <div style="margin-top:30px;font-size:12px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.35);">Street Archive — 2025</div>
+    </div>
+  </div>
+
+  <!-- FS 4 — Split reversed -->
+  <div class="fs-split reveal">
+    <div class="fs-half split-text-side" style="background:var(--black);">
+      <h2 style="color:var(--white);">Street<br><em style="color:rgba(255,255,255,0.3);">level</em></h2>
+      <p style="color:rgba(255,255,255,0.5);">Capturing fashion in the context of the city. Each image is a moment between architecture and movement.</p>
+    </div>
+    <div class="fs-half img-ph" style="background:linear-gradient(200deg,#9c9890,#6a6660);">
+      <div class="img-ph-cross"></div>
+    </div>
+  </div>
+
+  <!-- FS 5 -->
+  <div class="fullscreen-section fs-layout-4">
+    <div class="parallax-wrap" data-speed="0.1">
+      <div class="img-ph" style="width:100%;height:100%;background:linear-gradient(150deg,#e8e4de,#c8c4be);">
+        <div class="img-ph-cross"></div>
+      </div>
+    </div>
+    <div class="fs-overlay-text title fs-layout-4">
+      <div class="editorial-tape" style="margin-bottom:16px;">Close Study</div>
+      <div class="fs-title dark">DETAIL</div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="overview-section reveal">
+    <div class="overview-meta stagger">
+      <div class="overview-meta-item">
+        <span class="meta-key">Role</span>
+        <span class="meta-val">Photography, Direction</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Tools</span>
+        <span class="meta-val">35mm, Digital Post</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Year</span>
+        <span class="meta-val">2025</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Type</span>
+        <span class="meta-val">Editorial Series</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Category</span>
+        <span class="meta-val">Street / Urban</span>
+      </div>
+    </div>
+    <div class="overview-content reveal">
+      <div class="ov-concept">The city is the backdrop.<br>The street is the studio.</div>
+      <p class="ov-body">Urban environments are living archives of texture, material, and human mark-making. This series positions fashion within that context—using the city as an equal collaborator in the visual narrative.</p>
+      <p class="ov-direction">Shot over three weeks across multiple districts, the project seeks moments where clothing and architecture share the same visual language: layered, worn, utilitarian yet expressive.</p>
+      <div class="ov-keywords">
+        <span class="ov-keyword">Street</span>
+        <span class="ov-keyword">Texture</span>
+        <span class="ov-keyword">Urban</span>
+        <span class="ov-keyword">Documentary</span>
+        <span class="ov-keyword">Material</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEED P2 -->
+  <div class="feed-section">
+    <div class="feed-header">
+      <span class="feed-header-title">Archive / Feed</span>
+      <span class="feed-header-count">5 Items</span>
+    </div>
+    <div class="feed-p2 stagger reveal">
+      <div class="feed-card f1">
+        <div class="img-ph card-img" style="background:linear-gradient(160deg,#b4b0a8,#8c8880);height:400px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-tag">Street</div>
+        <div class="card-footer">
+          <div class="card-caption">Concrete wall, worn leather</div>
+          <div class="card-micro">Urban Archive — Spring</div>
+        </div>
+      </div>
+      <div class="feed-card f2">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#e0dcd6,#c0bcb6);height:300px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Movement study, III</div>
+          <div class="card-micro">Series</div>
+        </div>
+      </div>
+      <div class="feed-card f3">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#2a2825,#464240);height:220px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Night frame</div>
+          <div class="card-micro">Low light</div>
+        </div>
+      </div>
+      <div class="feed-card f4">
+        <div class="img-ph card-img" style="background:linear-gradient(160deg,#d8d4ce,#b8b4ae);height:320px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Oversized coat, bridge</div>
+          <div class="card-micro">Location / Day</div>
+        </div>
+      </div>
+      <div class="feed-card f5">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#f0ede8,#d0ccc6);height:260px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Light study</div>
+          <div class="card-micro">Golden hour</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PROJECT 3 — CHROMATIC SERIES
+     ============================================================ -->
+<div class="project-end-rule"></div>
+<div id="p3" class="project-section">
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <div class="section-divider-label">Project 03 / 05</div>
+    <div class="section-divider-line"></div>
+  </div>
+  <div class="project-intro reveal">
+    <div>
+      <h2>Chromatic<br><em>Series</em></h2>
+    </div>
+    <div class="project-number">03</div>
+  </div>
+
+  <!-- FS 1 -->
+  <div class="fullscreen-section" style="overflow:hidden;position:relative;">
+    <div class="parallax-wrap" data-speed="0.1">
+      <div class="img-ph" style="width:100%;height:100%;background:linear-gradient(130deg,#b0bece,#c8d4e0);">
+        <div class="img-ph-label">Chromatic / Warm 001</div>
+      </div>
+    </div>
+    <div class="fs-gradient-overlay"></div>
+    <div style="position:absolute;bottom:80px;left:40px;">
+      <div class="editorial-tape">Color Study</div>
+      <div class="fs-title" style="color:#fff;margin-top:12px;">CHROMATIC</div>
+    </div>
+  </div>
+  <div class="fs-caption-bar reveal">
+    <span>Color as Architecture — Tonal Spectrum</span>
+    <span class="right">Campaign / Color</span>
+  </div>
+
+  <!-- FS 2 — Three columns -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;height:70vh;">
+    <div class="img-ph" style="background:linear-gradient(180deg,#c8d4de,#a8b8c4);">
+      <div class="img-ph-cross"></div>
+      <div class="img-ph-label">Warm</div>
+    </div>
+    <div class="img-ph" style="background:linear-gradient(180deg,#c0cad4,#a0aab4);">
+      <div class="img-ph-cross"></div>
+      <div class="img-ph-label">Cool</div>
+    </div>
+    <div class="img-ph" style="background:linear-gradient(180deg,#c4ccd4,#a4aeb8);">
+      <div class="img-ph-cross"></div>
+      <div class="img-ph-label">Neutral</div>
+    </div>
+  </div>
+
+  <!-- FS 3 -->
+  <div class="fullscreen-section" style="overflow:hidden;position:relative;background:var(--off-white);">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;">
+        <div style="font-size:clamp(60px,13vw,180px);font-weight:800;letter-spacing:-0.05em;color:var(--warm-gray);line-height:0.85;">COLOR</div>
+        <div class="img-ph" style="width:50vw;height:40vh;margin:20px auto;max-width:700px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div style="font-size:clamp(60px,13vw,180px);font-weight:800;letter-spacing:-0.05em;color:var(--warm-gray);line-height:0.85;">THEORY</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FS 4 -->
+  <div class="fs-split reveal">
+    <div class="fs-half img-ph" style="background:linear-gradient(180deg,#c0bca8,#a8a498);">
+      <div class="img-ph-cross"></div>
+    </div>
+    <div class="fs-half img-ph" style="background:linear-gradient(180deg,#d4d0c8,#b8b4ac);">
+      <div class="img-ph-cross"></div>
+    </div>
+  </div>
+
+  <!-- FS 5 -->
+  <div class="fullscreen-section fs-layout-5" style="background:var(--black);overflow:hidden;position:relative;">
+    <div class="img-ph" style="width:100%;height:100%;background:linear-gradient(160deg,#161c28,#2c3848);position:absolute;inset:0;opacity:0.8;">
+    </div>
+    <div class="fs-overlay-text title" style="bottom:80px;left:0;right:0;text-align:center;">
+      <div class="fs-title" style="color:rgba(255,255,255,0.9);">SATURATION</div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="overview-section reveal">
+    <div class="overview-meta stagger">
+      <div class="overview-meta-item">
+        <span class="meta-key">Role</span>
+        <span class="meta-val">Color Direction, Styling</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Tools</span>
+        <span class="meta-val">Photoshop, Color Grading</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Year</span>
+        <span class="meta-val">2023</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Type</span>
+        <span class="meta-val">Independent Series</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Category</span>
+        <span class="meta-val">Color / Editorial</span>
+      </div>
+    </div>
+    <div class="overview-content reveal">
+      <div class="ov-concept">Color as structure.<br>Tone as narrative.</div>
+      <p class="ov-body">An editorial investigation into the psychology of color in fashion. Each chapter of the series corresponds to a chromatic temperature—warm, cool, neutral—examining how color changes the perceived weight, season, and mood of a look.</p>
+      <p class="ov-direction">The palette was intentionally desaturated from magazine-vivid tones toward a more archival register. Colors that feel worn-in, lived with—not pristine.</p>
+      <div class="ov-keywords">
+        <span class="ov-keyword">Palette</span>
+        <span class="ov-keyword">Tone</span>
+        <span class="ov-keyword">Archive</span>
+        <span class="ov-keyword">Temperature</span>
+        <span class="ov-keyword">Muted</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEED P3 -->
+  <div class="feed-section">
+    <div class="feed-header">
+      <span class="feed-header-title">Archive / Feed</span>
+      <span class="feed-header-count">5 Items</span>
+    </div>
+    <div class="feed-p3 stagger reveal">
+      <div class="feed-card f1">
+        <div class="img-ph card-img" style="background:linear-gradient(150deg,#b8c4d0,#98a8b8);">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-tag">Color</div>
+        <div class="card-footer">
+          <div class="card-caption">Warm spectrum, series I</div>
+          <div class="card-micro">Color Study</div>
+        </div>
+      </div>
+      <div class="feed-card f2">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#a8b4c0,#8894a4);">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Cool spectrum, series II</div>
+          <div class="card-micro">Color Study</div>
+        </div>
+      </div>
+      <div class="feed-card f3">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#d4dae0,#b4bcc4);">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Neutral register</div>
+          <div class="card-micro">Base Tone</div>
+        </div>
+      </div>
+      <div class="feed-card f4">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#b8c4ce,#98a8b4);">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Earth, transition</div>
+          <div class="card-micro">Warm Neutral</div>
+        </div>
+      </div>
+      <div class="feed-card f5">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#181e28,#303848);">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Void study, black</div>
+          <div class="card-micro">Dark Spectrum</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PROJECT 4 — FABRIC ARCHIVE
+     ============================================================ -->
+<div class="project-end-rule"></div>
+<div id="p4" class="project-section">
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <div class="section-divider-label">Project 04 / 05</div>
+    <div class="section-divider-line"></div>
+  </div>
+  <div class="project-intro reveal">
+    <div>
+      <h2>Fabric<br><em>Archive</em></h2>
+    </div>
+    <div class="project-number">04</div>
+  </div>
+
+  <!-- FS 1 — Tall centered -->
+  <div class="fullscreen-section" style="overflow:hidden;position:relative;background:var(--off-white);">
+    <div style="position:absolute;inset:0;display:flex;">
+      <div class="img-ph" style="width:60%;height:100%;background:linear-gradient(160deg,#d4dce4,#b8c4ce);">
+        <div class="img-ph-cross"></div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:60px 40px;">
+        <div class="editorial-tape" style="margin-bottom:20px;align-self:flex-start;">Material Study</div>
+        <div style="font-size:clamp(36px,6vw,80px);font-weight:700;letter-spacing:-0.03em;line-height:0.9;color:var(--black);">
+          FABRIC<br><span style="font-weight:300;font-style:italic;color:var(--mid-gray);">Archive</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fs-caption-bar reveal">
+    <span>Weave, Drape, Weight — The Language of Cloth</span>
+    <span class="right">Material / Close-up</span>
+  </div>
+
+  <!-- FS 2 -->
+  <div class="fullscreen-section" style="overflow:hidden;position:relative;">
+    <div class="parallax-wrap" data-speed="0.08">
+      <div class="img-ph" style="width:100%;height:100%;background:linear-gradient(140deg,#e0e6ec,#ccd4dc);">
+        <div class="img-ph-cross"></div>
+      </div>
+    </div>
+    <div style="position:absolute;top:60px;left:40px;">
+      <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--mid-gray);margin-bottom:10px;">Close Study 002</div>
+      <div style="font-size:clamp(40px,8vw,110px);font-weight:700;letter-spacing:-0.04em;color:var(--dark-gray);line-height:0.9;">WEAVE<br>&amp; WEFT</div>
+    </div>
+  </div>
+
+  <!-- FS 3 -->
+  <div class="fullscreen-section bg-black" style="overflow:hidden;position:relative;">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;">
+      <div class="img-ph" style="width:45%;height:80%;margin-left:8%;background:linear-gradient(160deg,#3c3830,#5a5448);">
+        <div class="img-ph-cross"></div>
+      </div>
+      <div style="padding:0 5% 0 6%;">
+        <div style="font-size:clamp(40px,7vw,100px);font-weight:700;letter-spacing:-0.04em;color:rgba(255,255,255,0.9);line-height:0.88;">DRAPE<br><span style="font-weight:300;font-style:italic;color:rgba(255,255,255,0.4);">and shadow</span></div>
+        <div style="margin-top:24px;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Material Dialogue — 2024</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FS 4 — Grid of 4 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;height:80vh;">
+    <div class="img-ph" style="background:linear-gradient(160deg,#d4dae0,#c0c8d0);">
+      <div class="img-ph-cross"></div>
+      <div class="img-ph-label">Linen — Loose weave</div>
+    </div>
+    <div class="img-ph" style="background:linear-gradient(160deg,#e0e6ec,#c8d0d8);">
+      <div class="img-ph-cross"></div>
+      <div class="img-ph-label">Silk — Bias cut</div>
+    </div>
+    <div class="img-ph" style="background:linear-gradient(160deg,#b8c0c8,#a0a8b0);">
+      <div class="img-ph-cross"></div>
+      <div class="img-ph-label">Denim — Heavy weight</div>
+    </div>
+    <div class="img-ph" style="background:linear-gradient(160deg,#1e2430,#384050);">
+      <div class="img-ph-cross"></div>
+      <div class="img-ph-label" style="color:rgba(255,255,255,0.4);">Wool — Pressed</div>
+    </div>
+  </div>
+  <div class="fs-caption-bar reveal">
+    <span>Four materials, four moods</span>
+    <span class="right">Archive Grid</span>
+  </div>
+
+  <!-- FS 5 -->
+  <div class="fullscreen-section" style="background:var(--off-white);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+    <div style="font-size:clamp(70px,15vw,220px);font-weight:800;letter-spacing:-0.06em;color:transparent;-webkit-text-stroke:1px var(--warm-gray);text-align:center;line-height:0.85;user-select:none;">CLOTH</div>
+    <div class="img-ph" style="position:absolute;width:30vw;height:55vh;max-width:420px;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(160deg,#c4ccd4,#a4aeb8);">
+      <div class="img-ph-cross"></div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="overview-section reveal">
+    <div class="overview-meta stagger">
+      <div class="overview-meta-item">
+        <span class="meta-key">Role</span>
+        <span class="meta-val">Research, Direction</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Tools</span>
+        <span class="meta-val">Macro Photography, Capture</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Year</span>
+        <span class="meta-val">2024</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Type</span>
+        <span class="meta-val">Material Archive</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Category</span>
+        <span class="meta-val">Textile / Close Study</span>
+      </div>
+    </div>
+    <div class="overview-content reveal">
+      <div class="ov-concept">Fashion begins before the body.<br>It begins in the cloth.</div>
+      <p class="ov-body">A macro-photography archive dedicated to textile surfaces. Linen, silk, wool, denim, and synthetic blends were photographed at extreme proximity to reveal the inherent beauty of weave structure, fiber direction, and material weight.</p>
+      <p class="ov-direction">The editorial approach treats fabric as landscape—each thread a topographic line, each surface a terrain. No styling. No model. Just material against neutral ground.</p>
+      <div class="ov-keywords">
+        <span class="ov-keyword">Textile</span>
+        <span class="ov-keyword">Material</span>
+        <span class="ov-keyword">Macro</span>
+        <span class="ov-keyword">Craft</span>
+        <span class="ov-keyword">Surface</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEED P4 -->
+  <div class="feed-section">
+    <div class="feed-header">
+      <span class="feed-header-title">Archive / Feed</span>
+      <span class="feed-header-count">4 Items</span>
+    </div>
+    <div class="feed-p4 stagger reveal">
+      <div class="feed-card f1">
+        <div class="img-ph card-img" style="background:linear-gradient(160deg,#bcc8d4,#a0acb8);height:520px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-tag">Textile</div>
+        <div class="card-footer">
+          <div class="card-caption">Silk, bias cut study</div>
+          <div class="card-micro">Archive / Fabric</div>
+        </div>
+      </div>
+      <div class="feed-card f2">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#e0dcd6,#c0bcb6);height:360px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Linen, raw edge</div>
+          <div class="card-micro">Material</div>
+        </div>
+      </div>
+      <div class="feed-card f3">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#282520,#48443c);height:280px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Pressed wool</div>
+          <div class="card-micro">Surface Study</div>
+        </div>
+      </div>
+      <div class="feed-card f4">
+        <div class="img-ph card-img" style="background:linear-gradient(160deg,#d0ccc6,#b4b0aa);height:300px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Denim, worn detail</div>
+          <div class="card-micro">Material Archive</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PROJECT 5 — FRAGMENTS
+     ============================================================ -->
+<div class="project-end-rule"></div>
+<div id="p5" class="project-section">
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <div class="section-divider-label">Project 05 / 05</div>
+    <div class="section-divider-line"></div>
+  </div>
+  <div class="project-intro reveal">
+    <div>
+      <h2>Fragments</h2>
+    </div>
+    <div class="project-number">05</div>
+  </div>
+
+  <!-- FS 1 — Dramatic full -->
+  <div class="fullscreen-section" style="background:var(--black);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+    <div class="img-ph" style="position:absolute;width:50vw;height:80%;right:0;background:linear-gradient(160deg,#2c2a26,#4a4640);opacity:0.6;">
+    </div>
+    <div style="position:absolute;left:40px;bottom:80px;">
+      <div class="editorial-tape" style="margin-bottom:18px;">Final Chapter</div>
+      <div class="fs-title" style="color:#fff;font-size:clamp(52px,12vw,160px);">FRAG<br>MENTS</div>
+    </div>
+    <div style="position:absolute;top:40px;right:40px;text-align:right;">
+      <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);">05 / 05</div>
+    </div>
+  </div>
+  <div class="fs-caption-bar reveal">
+    <span>Memory, Fragment, Trace</span>
+    <span class="right">Conceptual / Personal</span>
+  </div>
+
+  <!-- FS 2 — Text-heavy white -->
+  <div class="fullscreen-section" style="background:var(--white);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;overflow:hidden;position:relative;">
+    <div style="text-align:center;position:relative;z-index:2;">
+      <div style="font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:var(--mid-gray);margin-bottom:24px;">Personal Archive — Ongoing</div>
+      <div style="font-size:clamp(36px,7vw,100px);font-weight:700;letter-spacing:-0.04em;line-height:0.88;color:var(--black);">What remains<br><span style="font-weight:300;font-style:italic;color:var(--mid-gray);">after looking</span></div>
+    </div>
+    <div style="position:absolute;bottom:60px;left:40px;right:40px;display:flex;justify-content:space-between;">
+      <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--mid-gray);">Fragment 001</span>
+      <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--mid-gray);">Ongoing</span>
+    </div>
+  </div>
+
+  <!-- FS 3 — Stack of 3 -->
+  <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:4px;height:80vh;">
+    <div class="img-ph" style="background:linear-gradient(180deg,#c4c0ba,#a4a09a);">
+      <div class="img-ph-cross"></div>
+    </div>
+    <div class="img-ph" style="background:linear-gradient(180deg,#161c28,#3a3630);">
+      <div class="img-ph-cross"></div>
+      <div class="img-ph-label" style="color:rgba(255,255,255,0.4);">Fragment — Central</div>
+    </div>
+    <div class="img-ph" style="background:linear-gradient(180deg,#dcd8d2,#c0bcb6);">
+      <div class="img-ph-cross"></div>
+    </div>
+  </div>
+
+  <!-- FS 4 -->
+  <div class="fullscreen-section" style="overflow:hidden;position:relative;background:var(--off-white);">
+    <div class="parallax-wrap" data-speed="0.12">
+      <div class="img-ph" style="width:100%;height:100%;background:linear-gradient(160deg,#e8e4de,#d4d0ca);">
+        <div class="img-ph-cross"></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:80px;right:40px;text-align:right;">
+      <div style="font-size:clamp(36px,6vw,80px);font-weight:700;letter-spacing:-0.03em;color:var(--dark-gray);line-height:0.9;">Memory<br><span style="font-weight:300;font-style:italic;color:var(--mid-gray);">as image</span></div>
+    </div>
+  </div>
+
+  <!-- FS 5 — Final closing -->
+  <div class="fullscreen-section" style="background:var(--black);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+    <div style="text-align:center;">
+      <div style="font-size:clamp(80px,18vw,260px);font-weight:800;letter-spacing:-0.06em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.12);line-height:0.85;user-select:none;">END</div>
+      <div style="margin-top:20px;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Studio Archive — 2022–2025</div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="overview-section reveal">
+    <div class="overview-meta stagger">
+      <div class="overview-meta-item">
+        <span class="meta-key">Role</span>
+        <span class="meta-val">Concept, Photography</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Tools</span>
+        <span class="meta-val">Film, Mixed Media</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Year</span>
+        <span class="meta-val">2022 — Ongoing</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Type</span>
+        <span class="meta-val">Personal Archive</span>
+      </div>
+      <div class="overview-meta-item">
+        <span class="meta-key">Category</span>
+        <span class="meta-val">Conceptual / Personal</span>
+      </div>
+    </div>
+    <div class="overview-content reveal">
+      <div class="ov-concept">These are the images<br>that didn't fit anywhere else.</div>
+      <p class="ov-body">A personal archive of fragments—images, moments, and visual notes that resist categorization. Shot on film and digital over several years, Fragments is an ongoing project with no fixed editorial direction. It grows as the work grows.</p>
+      <p class="ov-direction">The project functions as a visual journal: loose, associative, and unresolved. The lack of system is intentional. These images belong together because they were made by the same eyes.</p>
+      <div class="ov-keywords">
+        <span class="ov-keyword">Personal</span>
+        <span class="ov-keyword">Film</span>
+        <span class="ov-keyword">Ongoing</span>
+        <span class="ov-keyword">Fragment</span>
+        <span class="ov-keyword">Memory</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEED P5 -->
+  <div class="feed-section">
+    <div class="feed-header">
+      <span class="feed-header-title">Archive / Feed</span>
+      <span class="feed-header-count">2 Items</span>
+    </div>
+    <div class="feed-p5 stagger reveal">
+      <div class="feed-card f1">
+        <div class="img-ph card-img" style="background:linear-gradient(160deg,#1c2230,#304050);height:600px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-tag">Archive</div>
+        <div class="card-footer">
+          <div class="card-caption">Fragment 001 — unnamed</div>
+          <div class="card-micro">Film, ongoing</div>
+        </div>
+      </div>
+      <div class="feed-card f2">
+        <div class="img-ph card-img" style="background:linear-gradient(180deg,#e4eaf0,#d0d8e4);height:380px;">
+          <div class="img-ph-cross"></div>
+        </div>
+        <div class="card-footer">
+          <div class="card-caption">Fragment 002 — light through fabric</div>
+          <div class="card-micro">Personal archive</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-brand reveal">
+    Studio<br><em>Archive</em>
+  </div>
+  <div class="footer-right reveal">
+    <p>Fashion Direction</p>
+    <p>Visual Archive</p>
+    <p>studio@archive.co</p>
+    <div class="footer-year">© 2025 — All Rights Reserved</div>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+document.querySelectorAll('a, .feed-card, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '16px'; cursor.style.height = '16px';
+    ring.style.width = '50px'; ring.style.height = '50px';
+    ring.style.opacity = '0.5';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '8px'; cursor.style.height = '8px';
+    ring.style.width = '32px'; ring.style.height = '32px';
+    ring.style.opacity = '1';
+  });
+});
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal, .stagger');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+
+revealEls.forEach(el => observer.observe(el));
+
+// Parallax
+const parallaxEls = document.querySelectorAll('[data-speed]');
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  parallaxEls.forEach(el => {
+    const speed = parseFloat(el.dataset.speed || 0.1);
+    const rect = el.closest('.fullscreen-section')?.getBoundingClientRect();
+    if (!rect) return;
+    const offset = (rect.top + sy) * speed;
+    el.style.transform = `translateY(${-offset * 0.3}px)`;
+  });
+}, { passive: true });
+
+// Nav background on scroll
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 100) {
+    nav.style.background = 'rgba(245,247,250,0.93)';
+    nav.style.backdropFilter = 'blur(12px)';
+    nav.style.borderBottom = '1px solid var(--warm-gray)';
+  } else {
+    nav.style.background = 'transparent';
+    nav.style.backdropFilter = 'none';
+    nav.style.borderBottom = 'none';
+  }
+}, { passive: true });
+</script>
+</body>
+</html>
